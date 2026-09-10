@@ -15,15 +15,11 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const DEEPSEEK_API_URL = 'https://api.deepseek.com/chat/completions';
-const DEEPSEEK_API_KEY = process.env.EXPO_PUBLIC_DEEPSEEK_API_KEY || '';
+// App inaongea na Supabase edge function yetu, si DeepSeek moja kwa moja.
+// Kwa njia hii API key haionekani kwenye APK hata kidogo.
+const CHAT_API_URL = process.env.EXPO_PUBLIC_CHAT_API_URL || '';
+const CHAT_ANON_KEY = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY || '';
 const STORAGE_KEY = '@quanatara_chat_history';
-
-const SYSTEM_PROMPT = `You are the Quanatara AI assistant. Quanatara is an AI agency that builds AI chatbots for customer support and WhatsApp, and business automation that connects tools and removes manual work.
-
-Your job is to help visitors understand what Quanatara does, answer their questions clearly, and guide anyone who is interested toward getting in touch.
-
-Be helpful, direct and friendly. Answer in the same language the visitor uses — English, Kiswahili or Sheng, whichever they write in. Keep answers short and useful. If someone asks something unrelated to Quanatara or AI automation, answer briefly and then steer the conversation back to how Quanatara can help them.`;
 
 const WELCOME_MESSAGE = {
   id: 'welcome',
