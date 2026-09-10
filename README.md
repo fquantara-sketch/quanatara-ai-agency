@@ -10,41 +10,70 @@ App (React Native)  ->  Supabase Edge Function  ->  DeepSeek API
 
 App haiongei na DeepSeek moja kwa moja. Inatuma ujumbe kwenye edge function yetu, na function hiyo (iliyo kwenye server) ndiyo inayoshikilia `DEEPSEEK_API_KEY`. Kwa hivyo key haionekani kwenye APK kabisa — mtu akipakua app hawezi kuichukua.
 
-## Setup
+Project ref yako: **smszwcvryknxxwjihuax**
+URL ya project yako: `https://smszwcvryknxxwjihuax.supabase.co`
 
-### 1. Deploy backend (mara moja)
+---
+
+## Hatua 1 — Deploy backend (fanya wewe mwenyewe, mara moja)
+
+Hizi ni amri za terminal kwenye kompyuta yako. Zinahitaji Node.js imewekwa.
 
 ```bash
 npm install -g supabase
 supabase login
-supabase link --project-ref YOUR_PROJECT_REF
-supabase secrets set DEEPSEEK_API_KEY=sk-your-real-key
+supabase link --project-ref smszwcvryknxxwjihuax
+supabase secrets set DEEPSEEK_API_KEY=sk-weka-key-yako-halisi-hapa
 supabase functions deploy chat --no-verify-jwt
 ```
 
-Baada ya deploy, utapata URL kama:
-`https://YOUR_PROJECT_REF.supabase.co/functions/v1/chat`
+`supabase login` itafungua browser na kukuomba access token — hiyo ni njia salama ya kuthibitisha, hakuna password inayopita hapa.
 
-### 2. Weka .env
+Baada ya deploy, function yako itakuwa hapa:
+`https://smszwcvryknxxwjihuax.supabase.co/functions/v1/chat`
+
+### Jaribu kama inafanya kazi
+
+```bash
+curl -X POST https://smszwcvryknxxwjihuax.supabase.co/functions/v1/chat \
+  -H "Content-Type: application/json" \
+  -d '{"messages":[{"role":"user","content":"Habari, mnafanya nini?"}]}'
+```
+
+Ukiona jibu la JSON, backend yako ipo tayari.
+
+---
+
+## Hatua 2 — Weka .env
 
 ```bash
 cp .env.example .env
 ```
 
-Weka:
-- `EXPO_PUBLIC_CHAT_API_URL` = URL ya function uliyoipata hapo juu
-- `EXPO_PUBLIC_SUPABASE_ANON_KEY` = anon key ya project yako (Supabase → Settings → API)
+Kisha fungua `.env` na uweke:
 
-### 3. Endesha kwenye simu (kuona kama inafanya kazi)
+```
+EXPO_PUBLIC_CHAT_API_URL=https://smszwcvryknxxwjihuax.supabase.co/functions/v1/chat
+EXPO_PUBLIC_SUPABASE_URL=https://smszwcvryknxxwjihuax.supabase.co
+EXPO_PUBLIC_SUPABASE_ANON_KEY=<anon key kutoka Settings -> API>
+```
+
+`.env` inaingia `.gitignore`, kwa hivyo haiingii GitHub.
+
+---
+
+## Hatua 3 — Endesha kwenye simu (kuona kama inafanya kazi)
 
 ```bash
 npm install
 npx expo start
 ```
 
-Scan QR code na app ya **Expo Go** kwenye simu yako.
+Scan QR code na app ya **Expo Go** kwenye simu yako. Chat itafanya kazi mara moja ikiwa Hatua 1 imekamilika.
 
-### 4. Jenga APK halisi
+---
+
+## Hatua 4 — Jenga APK halisi
 
 ```bash
 npm install -g eas-cli
@@ -55,10 +84,30 @@ eas build -p android --profile preview
 
 Baada ya ~15-20 dakika utapata link ya kupakua `.apk`. Tuma kwa mtu yeyote, au weka Play Store kwa profile ya `production` (inatoa `.aab`).
 
-## Kumbuka kuhusu icons
+---
+
+## Icons
 
 `app.json` inataja `assets/icon.png`, `assets/splash.png`, `assets/adaptive-icon.png` na `assets/favicon.png`. Ongeza picha zako hapo kabla ya kujenga APK — au badilisha `app.json` kama hutaki icons zako bado.
 
+---
+
 ## Badilisha bot inavyojibu
 
-System prompt ya bot iko kwenye `supabase/functions/chat/index.ts`. Badilisha maneno hapo, kisha u-deploy tena (`supabase functions deploy chat --no-verify-jwt`) — mabadiliko yanaonekana mara moja bila kujenga app upya.
+System prompt ya bot iko kwenye `supabase/functions/chat/index.ts`. Badilisha maneno hapo, kisha u-deploy tena:
+
+```bash
+supabase functions deploy chat --no-verify-jwt
+```
+
+Mabadiliko yanaonekana mara moja bila kujenga app upya.
+
+---
+
+## Usalama — jambo la kukumbuka
+
+Function imedeploywa kwa `--no-verify-jwt`, maana yake mtu yeyote anayejua URL anaweza kuitumia. Kwa demo hii inafaa. Kwa app halisi yenye watumiaji wengi, unataka:
+
+- kuondoa `--no-verify-jwt` ili JWT itolewe na kila mtu ajiingize
+- kuweka rate limiting ili mtu asichome pesa zako kwa maombi mengi
+- kufuatilia matumizi kwenye dashboard ya DeepSeek
