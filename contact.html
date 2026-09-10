@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Quanatara | Book a Free AI Consultation</title>
+  <meta name="description" content="Tell Quanatara what's slowing your team down. Book a free 20-minute call about AI chatbots and business automation." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-mark">Q</span>
+        <span class="logo-text">Quanatara</span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="about.html">About</a>
+        <a href="contact.html" class="active">Contact</a>
+      </nav>
+      <a href="contact.html" class="btn btn-primary nav-cta">Book a call</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-head">
+      <div class="container">
+        <span class="pill">Contact</span>
+        <h1>Tell us what's eating your team's time.</h1>
+        <p>
+          Fill in the form and we'll come back within one working day — usually with a straight answer
+          on whether AI is the right fix, and what it would take.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container contact-grid">
+        <div class="form-card">
+          <div class="form-success" id="formSuccess"></div>
+          <form id="contactForm" novalidate>
+            <div class="field">
+              <label for="name">Your name</label>
+              <input type="text" id="name" name="name" placeholder="e.g. Amina Hassan" required />
+            </div>
+            <div class="field">
+              <label for="email">Email address</label>
+              <input type="email" id="email" name="email" placeholder="you@company.com" required />
+            </div>
+            <div class="field">
+              <label for="company">Company / business</label>
+              <input type="text" id="company" name="company" placeholder="e.g. Sahara Retail" />
+            </div>
+            <div class="field">
+              <label for="service">What do you need?</label>
+              <select id="service" name="service" required>
+                <option value="">Choose a service</option>
+                <option value="AI Chatbot">AI Chatbot (support / WhatsApp)</option>
+                <option value="Business Automation">Business Automation</option>
+                <option value="Both">Both — chatbot + automation</option>
+                <option value="Not sure">Not sure yet, need advice</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="message">What's slowing you down?</label>
+              <textarea id="message" name="message" placeholder="Tell us about the repetitive work, the customer questions, or the process that keeps breaking." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Send enquiry</button>
+            <p class="form-note">We reply within 1 working day. No spam, ever.</p>
+          </form>
+        </div>
+
+        <aside class="contact-side">
+          <div class="info-card">
+            <h4>Email us directly</h4>
+            <p>Prefer to write it yourself? That works too.</p>
+            <a href="mailto:hello@quanatara.com">hello@quanatara.com</a>
+          </div>
+          <div class="info-card">
+            <h4>Book a call</h4>
+            <p>20 minutes, no pitch deck, just questions about how your business runs.</p>
+            <a href="mailto:hello@quanatara.com?subject=Book%20a%20Quanatara%20call">Request a time slot &rarr;</a>
+          </div>
+          <div class="info-card">
+            <h4>Response time</h4>
+            <p>Enquiries: within 1 working day.</p>
+            <p>Existing clients: same-day support.</p>
+          </div>
+          <div class="info-card">
+            <h4>What happens next</h4>
+            <p>1. We read your message properly.</p>
+            <p>2. We reply with honest next steps.</p>
+            <p>3. If it's a fit, we book the call.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">
+          <span class="logo-mark">Q</span>
+          <span class="logo-text">Quanatara</span>
+        </a>
+        <p>AI chatbots and business automation for teams that would rather grow than copy-paste.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Services</h5>
+        <a href="services.html#chatbots">AI Chatbots</a>
+        <a href="services.html#automation">Business Automation</a>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h5>Get in touch</h5>
+        <a href="mailto:hello@quanatara.com">hello@quanatara.com</a>
+        <a href="contact.html">Book a call</a>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <span>© <span id="year">2025</span> Quanatara. All rights reserved.</span>
+      <span>AI that works while you don't.</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
