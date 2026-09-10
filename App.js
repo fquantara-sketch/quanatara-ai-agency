@@ -102,10 +102,10 @@ export default function App() {
     const trimmed = input.trim();
     if (!trimmed || loading) return;
 
-    if (!DEEPSEEK_API_KEY) {
+    if (!CHAT_API_URL || !CHAT_ANON_KEY) {
       Alert.alert(
-        'API key haipo',
-        'Weka EXPO_PUBLIC_DEEPSEEK_API_KEY kwenye file la .env, kisha uanzishe app upya.'
+        'Backend haipo',
+        'Weka EXPO_PUBLIC_CHAT_API_URL na EXPO_PUBLIC_SUPABASE_ANON_KEY kwenye file la .env, kisha uanzishe app upya.'
       );
       return;
     }
@@ -119,32 +119,23 @@ export default function App() {
     setStreamingText('');
     scrollToBottom();
 
-    // Only send real conversation turns to the API (skip the greeting card).
-    const apiMessages = [
-      { role: 'system', content: SYSTEM_PROMPT },
-      ...nextMessages
-        .filter((m) => m.id !== 'welcome')
-        .map((m) => ({ role: m.role, content: m.content })),
-    ];
-
-    let assistantText = '';
+    // Tunatuma conversation (bila ile greeting card) kwenye backend yetu.
+    const apiMessages = nextMessages
+      .filter((m) => m.id !== 'welcome')
+      .map((m) => ({ role: m.role, content: m.content }));
 
     try {
       const controller = new AbortController();
       abortRef.current = controller;
 
-      const response = await fetch(DEEPSEEK_API_URL, {
+      const response = await fetch(CHAT_API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${DEEPSEEK_API_KEY}`,
+          Authorization: `Bearer ${CHAT_ANON_KEY}`,
+          apikey: CHAT_ANON_KEY,
         },
-        body: JSON.stringify({
-          model: 'deepseek-chat',
-          messages: apiMessages,
-          stream: true,
-          temperature: 0.7,
-        }),
+        body: JSON.stringify({ messages: apiMessages }),
         signal: controller.signal,
       });
 
@@ -153,42 +144,13 @@ export default function App() {
         throw new Error(`API error ${response.status}: ${errBody.slice(0, 200)}`);
       }
 
-      // React Native's fetch gives us a ReadableStream on body — read it chunk by chunk.
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
+      const data = await response.json();
+      const reply = typeof data?.reply === 'string' ? data.reply.trim() : '';
 
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-        buffer = lines.pop() || '';
-
-        for (const line of lines) {
-          const trimmedLine = line.trim();
-          if (!trimmedLine.startsWith('data:')) continue;
-          const data = trimmedLine.slice(5).trim();
-          if (data === '[DONE]') continue;
-          try {
-            const json = JSON.parse(data);
-            const delta = json.choices?.[0]?.delta?.content;
-            if (delta) {
-              assistantText += delta;
-              setStreamingText(assistantText);
-              scrollToBottom();
-            }
-          } catch (parseErr) {
-            // Ignore partial/invalid chunks — the stream keeps going.
-          }
-        }
-      }
-
-      if (assistantText.trim()) {
+      if (reply) {
         setMessages((prev) => [
           ...prev,
-          { id: uid(), role: 'assistant', content: assistantText.trim() },
+          { id: uid(), role: 'assistant', content: reply },
         ]);
       } else {
         setMessages((prev) => [
@@ -201,15 +163,7 @@ export default function App() {
         ]);
       }
     } catch (err) {
-      if (err.name === 'AbortError') {
-        // User cancelled — save whatever came through already.
-        if (assistantText.trim()) {
-          setMessages((prev) => [
-            ...prev,
-            { id: uid(), role: 'assistant', content: assistantText.trim() },
-          ]);
-        }
-      } else {
+      if (err.name !== 'AbortError') {
         console.warn('Chat request failed:', err);
         setMessages((prev) => [
           ...prev,
