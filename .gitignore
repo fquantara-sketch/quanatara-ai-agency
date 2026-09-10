@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Secrets — NEVER commit these
+.env
+.env.local
+.env.*.local
+
+# Expo / React Native
+.expo/
+.expo-shared/
+dist/
+web-build/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+ios/
+android/
+
+# Native builds / APK output
+*.apk
+*.aab
+
+# Logs
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+*.log
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
