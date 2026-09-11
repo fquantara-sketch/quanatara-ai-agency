@@ -19,6 +19,18 @@ URL ya project yako: `https://smszwcvryknxxwjihuax.supabase.co`
 
 Hizi ni amri za terminal kwenye kompyuta yako. Zinahitaji Node.js imewekwa.
 
+> **Windows: kama unaona `npx.ps1 cannot be loaded because running scripts is disabled`**
+>
+> PowerShell inazuia scripts kwa default. Suluhisho rahisi ni kubadilisha kwenda **Command Prompt** (fungua Start, andika `cmd`) na kuendesha amri hizo hapo.
+>
+> Kama unataka kubaki PowerShell, endesha hii mara moja kisha fungua dirisha jipya:
+>
+> ```powershell
+> Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+> ```
+>
+> Njia ya tatu: weka `cmd /c` mbele ya kila amri, mfano `cmd /c "npx supabase login"`.
+
 ```bash
 npm install -g supabase
 supabase login
