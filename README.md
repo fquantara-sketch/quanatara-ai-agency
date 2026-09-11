@@ -31,6 +31,15 @@ Hizi ni amri za terminal kwenye kompyuta yako. Zinahitaji Node.js imewekwa.
 >
 > Njia ya tatu: weka `cmd /c` mbele ya kila amri, mfano `cmd /c "npx supabase login"`.
 
+Kwanza ingia kwenye folder la mradi (amri hizi zinaendesha ndani ya folder lilo na `package.json`):
+
+```bash
+git clone https://github.com/fquantara-sketch/quanatara-ai-agency.git
+cd quanatara-ai-agency
+```
+
+Kisha:
+
 ```bash
 npm install -g supabase
 supabase login
